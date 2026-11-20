@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulmoVision AI | Chest X-ray Research Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="PulmoVision home">
+        <span class="brand-icon">✚</span>
+        <span><b>PulmoVision</b><small>AI RESEARCH PLATFORM</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-menu">
+        <button class="nav-link active" data-page="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-link" data-page="upload"><span>⇧</span> Upload X-ray</button>
+        <button class="nav-link" data-page="preprocessing"><span>◫</span> Image preprocessing</button>
+        <button class="nav-link" data-page="prediction"><span>⌁</span> Disease prediction</button>
+        <button class="nav-link" data-page="gradcam"><span>◉</span> Grad-CAM explainability</button>
+        <button class="nav-link" data-page="history"><span>◷</span> Prediction history</button>
+        <button class="nav-link" data-page="performance"><span>▥</span> Model performance</button>
+      </nav>
+      <div class="side-label about-label">INFORMATION</div>
+      <nav class="nav-menu">
+        <button class="nav-link" data-page="about"><span>ⓘ</span> About project</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="status-dot"></div>
+        <div><b>Research prototype</b><small>Frontend demonstration</small></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <b id="pageCrumb">Dashboard</b></div>
+       
+        <div class="top-actions">
+         <span class="top-date" id="todayDate"></span>
+
+  <div class="profile-wrapper">
+    <button
+      class="avatar"
+      id="userProfileBtn"
+      type="button"
+      title="User profile"
+      aria-expanded="false"
+    >
+      BR
+    </button>
+
+    <div class="profile-dropdown" id="profileDropdown">
+      <div class="profile-info">
+        <div class="profile-avatar-large" id="profileInitials">BR</div>
+        <div class="profile-user-details">
+          <strong id="profileName">User</strong>
+          <span id="profileEmail">user@example.com</span>
+        </div>
+      </div>
+
+      <div class="profile-divider"></div>
+
+      <div class="profile-account-label">ACCOUNT</div>
+
+      <button type="button" class="profile-menu-item" id="profileDetailsBtn">
+        <span>♙</span>
+        My Profile
+      </button>
+
+      <button type="button" class="profile-menu-item logout-item" id="logoutBtn">
+        <span>↪</span>
+        Logout
+      </button>
+    </div>
+  </div>
+        </div>
+
+      </header>
+
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-row">
+          <div><div class="eyebrow">CHEST X-RAY INTELLIGENCE</div><h1>Research dashboard</h1>
+          <p class="muted">Monitor image analysis, model experiments and recent activity.</p></div>
+          <button class="btn btn-primary" data-go="upload">＋ New analysis</button>
+        </div>
+        <div class="notice"><span>ⓘ</span><div><b>Academic research interface</b><p>This frontend currently uses sample data. It is not connected to a trained model and must not be used for medical diagnosis.</p></div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total analyses</span><span class="stat-icon blue">▧</span></div><strong id="totalAnalyses">128</strong><small class="positive">Sample dashboard data</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Classification classes</span><span class="stat-icon teal">◈</span></div><strong>04</strong><small>Four target categories</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Model architecture</span><span class="stat-icon purple">⌘</span></div><strong class="architecture">ViT + ResNet</strong><small>Fusion research model</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Latest activity</span><span class="stat-icon orange">◷</span></div><strong class="architecture" id="latestActivity">Today</strong><small>Local demo session</small></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel chart-panel"><div class="panel-heading"><div><h3>Analysis overview</h3><p>Illustrative monthly activity</p></div><span class="pill">Demo data</span></div><canvas id="overviewChart" height="115"></canvas></article>
+          <article class="panel"><div class="panel-heading"><div><h3>Class distribution</h3><p>Example dataset composition</p></div></div><canvas id="classChart" height="190"></canvas><div class="legend-list"><span><i class="dot dot-blue"></i>COVID-19</span><span><i class="dot dot-teal"></i>Lung opacity</span><span><i class="dot dot-purple"></i>Normal</span><span><i class="dot dot-orange"></i>Viral pneumonia</span></div></article>
+        </div>
+        <article class="panel table-panel"><div class="panel-heading"><div><h3>Recent activity</h3><p>Example records for interface preview</p></div><button class="text-btn" data-go="history">View all →</button></div><div class="table-wrap"><table><thead><tr><th>Image ID</th><th>Prediction</th><th>Confidence</th><th>Date</th><th>Status</th></tr></thead><tbody id="recentRows"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-upload">
+        <div class="page-heading"><div class="eyebrow">IMAGE INPUT</div><h1>Upload chest X-ray</h1><p class="muted">Select a frontal chest X-ray image to preview it in the interface.</p></div>
+        <div class="upload-layout">
+          <article class="panel upload-panel">
+            <div class="panel-heading"><div><h3>Upload image</h3><p>Supported formats: JPG, JPEG and PNG</p></div><span class="step-badge">STEP 01</span></div>
+            <label class="dropzone" id="dropzone" for="xrayInput">
+              <input type="file" id="xrayInput" accept="image/png,image/jpeg,image/jpg">
+              <span class="upload-symbol">⇧</span><b>Drag and drop your X-ray here</b><span>or <u>browse files</u> from your computer</span><small>Maximum file size: 10 MB</small>
+            </label>
+            <div class="file-info" id="fileInfo">No image selected</div>
+            <div class="button-row"><button class="btn btn-outline" id="clearUpload">Clear</button><button class="btn btn-primary" id="previewBtn" disabled>Continue to preview →</button></div>
+          </article>
+          <article class="panel preview-panel"><div class="panel-heading"><div><h3>Image preview</h3><p>Your selected image will appear here</p></div></div><div class="image-placeholder" id="uploadPreview"><div class="placeholder-lungs">🫁</div><span>Waiting for an image</span></div></article>
+        </div>
+        <div class="notice notice-soft"><span>!</span><div><b>Data privacy</b><p>This demo processes the selected image locally in your browser. It does not upload the image to a server.</p></div></div>
+      </section>
+
+      <section class="page" id="page-preprocessing">
+        <div class="page-heading"><div class="eyebrow">IMAGE PREPARATION</div><h1>Image preprocessing</h1><p class="muted">Inspect the original image and a resized preview.</p></div>
+        <div class="two-panels">
+          <article class="panel"><div class="panel-heading"><div><h3>Original image</h3><p>Uploaded chest X-ray</p></div></div><div class="image-placeholder large" id="originalImage"><span>No image uploaded yet</span></div><div class="image-meta" id="originalMeta">Image dimensions: —</div></article>
+          <article class="panel"><div class="panel-heading"><div><h3>Resized image</h3><p>224 × 224 preview</p></div><span class="pill">Preview only</span></div><div class="image-placeholder large" id="resizedImage"><span>No image uploaded yet</span></div><div class="image-meta">Target dimensions: 224 × 224 pixels</div></article>
+        </div>
+        <article class="panel process-panel"><h3>Preprocessing pipeline</h3><div class="pipeline"><div class="pipe-step done"><b>01</b><span>Image upload</span></div><i>→</i><div class="pipe-step"><b>02</b><span>Resize</span></div><i>→</i><div class="pipe-step"><b>03</b><span>Normalize</span></div><i>→</i><div class="pipe-step"><b>04</b><span>Model input</span></div></div><p class="muted small">This page currently demonstrates image resizing only. Actual normalization and any lung segmentation will be implemented in the Python pipeline.</p></article>
+      </section>
+
+      <section class="page" id="page-prediction">
+        <div class="page-heading"><div class="eyebrow">MODEL OUTPUT</div><h1>Disease prediction</h1><p class="muted">Preview the planned classification result layout.</p></div>
+        <div class="result-layout">
+          <article class="panel"><div class="panel-heading"><div><h3>Selected X-ray</h3><p>Input image for analysis</p></div></div><div class="image-placeholder large" id="predictionImage"><span>Upload an X-ray first</span></div><button class="btn btn-outline full-btn" data-go="upload">Choose another image</button></article>
+          <article class="panel result-panel"><div class="result-placeholder"><span class="result-icon">✧</span><div class="eyebrow">PREDICTION RESULT</div><h2 id="resultTitle">Awaiting model integration</h2><p class="muted">The trained ViT–ResNet model will display its predicted class here.</p><div class="demo-warning">Demo mode: no real inference has been performed.</div></div><h3 class="prob-title">Class probability layout</h3><div id="probabilityBars"></div><button class="btn btn-primary full-btn" id="demoPrediction">Preview sample result</button></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-gradcam">
+        <div class="page-heading"><div class="eyebrow">EXPLAINABLE AI</div><h1>Grad-CAM explainability</h1><p class="muted">Visualize the planned heatmap explanation area.</p></div>
+        <article class="panel"><div class="panel-heading"><div><h3>Activation visualization</h3><p>Original image and Grad-CAM overlay</p></div><span class="pill">Awaiting model</span></div><div class="two-panels no-gap"><div><div class="image-placeholder large" id="gradOriginal"><span>Original X-ray</span></div><p class="image-caption">Original chest X-ray</p></div><div><div class="image-placeholder large heat-placeholder" id="gradHeat"><span>Heatmap will appear here</span></div><p class="image-caption">Grad-CAM overlay (not connected)</p></div></div><div class="notice notice-soft"><span>ⓘ</span><div><b>Implementation note</b><p>The actual heatmap must be generated from gradients and feature maps of the trained model. This frontend placeholder does not generate medical explanations.</p></div></div></article>
+      </section>
+
+      <section class="page" id="page-history">
+        <div class="page-heading"><div class="eyebrow">RECORDS</div><h1>Prediction history</h1><p class="muted">View sample records and analyses created during this browser session.</p></div>
+        <article class="panel table-panel"><div class="panel-heading"><div><h3>Analysis records</h3><p>Demo records are stored in this browser session only.</p></div><button class="btn btn-outline btn-small" id="exportHistory">Export CSV ↓</button></div><div class="table-wrap"><table><thead><tr><th>Image ID</th><th>Prediction</th><th>Confidence</th><th>Date</th><th>Type</th></tr></thead><tbody id="historyRows"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-performance">
+        <div class="page-heading"><div class="eyebrow">MODEL EVALUATION</div><h1>Model performance</h1><p class="muted">The final version will show metrics calculated on your held-out test dataset.</p></div>
+        <div class="notice"><span>!</span><div><b>Do not use these sample values in your report</b><p>Replace all illustrative metrics with results from your actual trained model and untouched test set.</p></div></div>
+        <div class="stats-grid four-metrics"><article class="stat-card"><small>Sample accuracy</small><strong>—</strong><span class="muted">Not evaluated</span></article><article class="stat-card"><small>Sample precision</small><strong>—</strong><span class="muted">Not evaluated</span></article><article class="stat-card"><small>Sample recall</small><strong>—</strong><span class="muted">Not evaluated</span></article><article class="stat-card"><small>Sample F1-score</small><strong>—</strong><span class="muted">Not evaluated</span></article></div>
+        <div class="content-grid"><article class="panel"><div class="panel-heading"><div><h3>Confusion matrix</h3><p>Will be populated after evaluation</p></div></div><div class="empty-chart">Evaluation output will appear here</div></article><article class="panel"><div class="panel-heading"><div><h3>Training curves</h3><p>Training and validation loss</p></div></div><div class="empty-chart">Training history will appear here</div></article></div>
+      </section>
+
+      <section class="page" id="page-about">
+        <div class="page-heading"><div class="eyebrow">PROJECT INFORMATION</div><h1>About PulmoVision AI</h1><p class="muted">Research prototype for multiclass lung disease classification from chest X-ray images.</p></div>
+        <article class="panel about-hero"><div class="about-symbol">🫁</div><div><div class="eyebrow">FINAL YEAR RESEARCH PROJECT</div><h2>Vision Transformer and Residual Network Based Lung Disease Classification</h2><p>A deep-learning research framework combining local image features from ResNet-50 and global contextual features from Vision Transformer.</p></div></article>
+        <div class="content-grid about-grid"><article class="panel"><h3>Project objectives</h3><ul class="clean-list"><li>Prepare and preprocess chest X-ray images.</li><li>Extract local features using ResNet-50.</li><li>Extract global features using Vision Transformer.</li><li>Fuse features for four-class classification.</li><li>Explore visual explanations using Grad-CAM.</li></ul></article><article class="panel"><h3>Target classes</h3><div class="class-list"><span>COVID-19</span><span>Lung Opacity</span><span>Normal</span><span>Viral Pneumonia</span></div></article><article class="panel"><h3>Proposed technology stack</h3><div class="tech-tags"><span>Python</span><span>PyTorch</span><span>ResNet-50</span><span>Vision Transformer</span><span>OpenCV</span><span>Grad-CAM</span><span>HTML</span><span>CSS</span><span>JavaScript</span></div></article><article class="panel"><h3>Research disclaimer</h3><p class="muted">This project is intended for academic research and learning. It is not a clinically validated medical device and must not be used to diagnose, treat or make decisions about patients.</p></article></div>
+      </section>
+
+      <footer class="footer"><span>© 2026 PulmoVision AI · Academic research prototype</span><span>Built for educational demonstration</span></footer>
+    </main>
+  </div>
+  <a href="ai.html" class="ask-ai-floating">
+    <span>✦</span>
+    Ask AI
+  </a>
+  <script src="script.js"></script>
+</body>
+</html>
