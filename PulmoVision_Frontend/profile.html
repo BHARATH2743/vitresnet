@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | PulmoVision AI</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #050a14;
+            color: #edf5ff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            box-sizing: border-box;
+        }
+
+        .profile-container {
+            width: 100%;
+            max-width: 650px;
+            padding: 35px;
+            border: 1px solid rgba(104,164,225,.22);
+            border-radius: 20px;
+            background: rgba(12,21,36,.88);
+            box-shadow: 0 15px 45px rgba(0,0,0,.3);
+            backdrop-filter: blur(18px);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#3185f6,#19c5d8);
+            display: grid;
+            place-items: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .profile-header h1 {
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
+
+        .profile-header p {
+            color: #8fa8c5;
+            margin: 0;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail-card {
+            padding: 17px;
+            border: 1px solid rgba(104,164,225,.2);
+            border-radius: 12px;
+            background: rgba(22,43,69,.48);
+            overflow-wrap: anywhere;
+        }
+
+        .detail-card span {
+            display: block;
+            color: #8fa8c5;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .detail-card strong {
+            font-size: 14px;
+            color: #edf5ff;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .profile-actions a,
+        .profile-actions button {
+            flex: 1;
+            padding: 13px;
+            text-align: center;
+            border: 0;
+            border-radius: 9px;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .back-btn {
+            background: #1b3553;
+            color: #edf5ff;
+        }
+
+        .logout-btn {
+            background: #d94154;
+            color: white;
+        }
+
+        @media(max-width:500px) {
+            .profile-container { padding: 22px; }
+            .profile-details { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="profile-container">
+
+        <header class="profile-header">
+            <div class="profile-avatar" id="profileAvatar">U</div>
+            <h1 id="profileName">User Name</h1>
+            <p>My PulmoVision AI Account</p>
+        </header>
+
+        <section class="profile-details">
+
+            <div class="detail-card">
+                <span>Full Name</span>
+                <strong id="detailName">-</strong>
+            </div>
+
+            <div class="detail-card">
+                <span>Email Address</span>
+                <strong id="detailEmail">-</strong>
+            </div>
+
+            <div class="detail-card">
+                <span>Mobile Number</span>
+                <strong id="detailMobile">-</strong>
+            </div>
+
+            <div class="detail-card">
+                <span>Date of Birth</span>
+                <strong id="detailDob">-</strong>
+            </div>
+
+            <div class="detail-card">
+                <span>Gender</span>
+                <strong id="detailGender">-</strong>
+            </div>
+
+        </section>
+
+        <div class="profile-actions">
+            <a href="index.html" class="back-btn">Back to Dashboard</a>
+            <button class="logout-btn" id="profileLogout">Logout</button>
+        </div>
+
+    </main>
+
+    <script>
+        const user = JSON.parse(
+            sessionStorage.getItem("pulmovisionUser") || "null"
+        );
+
+        if (!user) {
+            window.location.replace("login.html");
+        } else {
+            document.getElementById("profileAvatar").textContent =
+                (user.name || "U").charAt(0).toUpperCase();
+
+            document.getElementById("profileName").textContent =
+                user.name || "User";
+
+            document.getElementById("detailName").textContent =
+                user.name || "-";
+
+            document.getElementById("detailEmail").textContent =
+                user.email || "-";
+
+            document.getElementById("detailMobile").textContent =
+                user.mobile || "-";
+
+            document.getElementById("detailDob").textContent =
+                user.dob || "-";
+
+            document.getElementById("detailGender").textContent =
+                user.gender || "-";
+        }
+
+        document.getElementById("profileLogout").addEventListener("click", () => {
+            sessionStorage.removeItem("pulmovisionUser");
+            window.location.replace("login.html");
+        });
+    </script>
+
+</body>
+</html>
