@@ -621,7 +621,7 @@ if (registerForm) {
         message.textContent = "Registration successful!";
 
         setTimeout(() => {
-            window.location.href = "login.html";
+            window.location.href = "index.html";
         }, 1000);
     });
 }
@@ -678,7 +678,7 @@ if (loginForm) {
         message.textContent = "Login successful!";
 
         setTimeout(function () {
-            window.location.href = "index.html";
+            window.location.href = "dashboard.html";
         }, 800);
     });
 }
