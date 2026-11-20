@@ -533,7 +533,7 @@ if (document.getElementById("page-dashboard")) {
 
             if (confirmLogout) {
                 sessionStorage.removeItem("pulmovisionUser");
-                window.location.replace("login.html");
+                window.location.replace("index.html");
             }
         }
     );
